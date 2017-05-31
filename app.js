@@ -12,6 +12,12 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 // Log all requests
 app.use(requestLogger('combined'));
 
+const userResource = require('./controller/user');
+const contractResource = require('./controller/contract');
+
+app.use('/user', userResource);
+app.use('/contract', contractResource);
+
 // finally start server
 app.listen(3000, function () {
   console.log('Imaginary insurance API is listening on port 3000!');
