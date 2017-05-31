@@ -4,7 +4,8 @@
   "description": "A backend for an imaginary insurance app written with express",
   "main": "app.js",
   "scripts": {
-    "start": "node ./app.js"
+    "start": "node ./app.js",
+    "test": "mocha --reporter spec"
   },
   "author": "Denis Augsburger",
   "license": "ISC",
@@ -18,5 +19,8 @@
     "winston": "^2.3.1"
   },
   "devDependencies": {
+    "mocha": "^3.4.2",
+    "should": "^11.2.1",
+    "supertest": "^3.0.0"
   }
 }
