@@ -9,8 +9,11 @@
   "author": "Denis Augsburger",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^1.0.2",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
+    "mongoose": "^4.10.4",
+    "mongoose-type-email": "^1.0.5",
     "morgan": "^1.8.2",
     "winston": "^2.3.1"
   },
