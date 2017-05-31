@@ -29,7 +29,23 @@ router.post('/', (req, res) => {
  * Update an insurance contract
  */
 router.put('/:id', (req, res) => {
-  res.send();
+  const {title, company, price} = req.body;
+  const id = req.params.id;
+  Contract.findById(id, function(err, contract) {
+
+    if(err || !contract) return res.status(404).send("Contract not found");
+
+    logger.info("Contract to update is " + JSON.stringify(contract));
+
+    if(title) contract.title = title;
+    if(company) contract.company = company;
+    if(price) contract.price = price;
+
+    contract.save((err, contract) => {
+      if(err) return res.send(err);
+      res.status(200).send(contract);
+    });
+  });
 });
 
 /**
