@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const logger = require('winston');
 const Contract = require('../model/Contract');
 
 /**
@@ -14,6 +15,7 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   const data = req.body;
   let contract = new Contract(data);
+  contract.user = req.user.id;
 
   contract.save((err, contract) => {
     if(err){
@@ -35,6 +37,9 @@ router.put('/:id', (req, res) => {
 
     if(err || !contract) return res.status(404).send("Contract not found");
 
+    // only update owned contracts
+    if( contract.user !== req.user.id) return res.status(401).send("Unauthorized");
+
     logger.info("Contract to update is " + JSON.stringify(contract));
 
     if(title) contract.title = title;
@@ -46,6 +51,7 @@ router.put('/:id', (req, res) => {
       res.status(200).send(contract);
     });
   });
+
 });
 
 /**
@@ -57,12 +63,16 @@ router.delete('/:id', (req, res) => {
     if(err) return res.status(400).send(err);
     if(!contract) return res.status(404).send();
 
+    // Check if the logged in user has created the contract
+    if(contract.user !== req.user.id) return res.status(401).send();
+
     contract.remove( (err) => {
       if(err) return res.status(400).send(err);
       res.status(200).send({});
     })
 
   });
+
 });
 
 module.exports = router;

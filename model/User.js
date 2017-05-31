@@ -1,7 +1,6 @@
-'strict';
-
 const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
+const uuidV4 = require('uuid/v4');
 const emailType = require('mongoose-type-email');
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
@@ -17,15 +16,6 @@ let UserSchema = new Schema({
 });
 
 /**
- * Add token with first insert
- */
-UserSchema.pre('insert', function(next){
-  let user = this;
-  user.token = uuidV4();
-  next();
-});
-
-/**
  * Check if entered password is valid
  * @param enteredPassword string to compare with saved password
  * @param cb function to callback
@@ -36,6 +26,32 @@ UserSchema.methods.checkPassword = function(enteredPassword, cb){
     cb(null, isMatch);
   });
 };
+
+/**
+ * Generates a new token and stores it in the entity
+ * @param cb function
+ */
+UserSchema.methods.generateToken = function(cb){
+  let user = this;
+  user.token = uuidV4();
+  user.save(function(err, user){
+    if(err) return cb(err);
+    cb(null,
+      {email: user.email,
+        token: user.token
+      }
+    );
+  })
+};
+
+/**
+ * Add token with first insert
+ */
+UserSchema.pre('insert', function(next){
+  let user = this;
+  user.token = uuidV4();
+  next();
+});
 
 /**
  * Hash password in pre saving hook
