@@ -52,7 +52,17 @@ router.put('/:id', (req, res) => {
  * Delete an insurance contract
  */
 router.delete('/:id', (req, res) => {
-  res.send();
+  const id = req.params.id;
+  Contract.findById(id, (err, contract) => {
+    if(err) return res.status(400).send(err);
+    if(!contract) return res.status(404).send();
+
+    contract.remove( (err) => {
+      if(err) return res.status(400).send(err);
+      res.status(200).send({});
+    })
+
+  });
 });
 
 module.exports = router;
