@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const Contract = require('../model/Contract');
 
 /**
  * List all corresponding insurance contracts from logged in user
@@ -11,7 +12,17 @@ router.get('/', (req, res) => {
  * Create an insurance contract
  */
 router.post('/', (req, res) => {
-  res.send();
+  const data = req.body;
+  let contract = new Contract(data);
+
+  contract.save((err, contract) => {
+    if(err){
+      logger.log("Error in post contract route. Error is %s", err.message);
+      // Proper error handling in later version
+      return res.status(400).send("Could not save contract, error message is "+err.message);
+    }
+    res.status(201).send(contract);
+  });
 });
 
 /**

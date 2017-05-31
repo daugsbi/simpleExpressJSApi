@@ -14,7 +14,7 @@ let ContractSchema = new Schema({
   company: { type: String },
   /* yearly price */
   price: { type: Number },
-  user: { type: String, required: true }
+  user: { type: String }
 });
 
 // Export to use
