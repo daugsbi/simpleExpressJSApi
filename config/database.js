@@ -2,5 +2,5 @@
  * MongoDB path, credential
  */
 module.exports = {
-  url : 'mongodb://localhost/testDB209'
+  url : 'mongodb://localhost/testDB200'
 };

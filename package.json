@@ -1,6 +1,6 @@
 {
   "name": "testAPI",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A backend for an imaginary insurance app written with express",
   "main": "app.js",
   "scripts": {

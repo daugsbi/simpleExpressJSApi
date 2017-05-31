@@ -40,13 +40,13 @@ router.post('/', (req, res) => {
   let user = new User(userData);
 
   user.save((err, user) => {
-    if(err){
-      logger.error("Error in post user route. Error is %s", err.message);
-      // Proper error handling in later version
-      return res.send(err);
-    }
-    logger.info("User created");
-    res.json(user);
+      if(err){
+        logger.error("Error in post user route. Error is %s", err.message);
+        // Proper error handling in later version
+        return res.send(err);
+      }
+      logger.info("User created");
+      res.json(user);
   });
 
 });

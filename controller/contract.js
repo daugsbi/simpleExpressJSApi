@@ -6,7 +6,12 @@ const Contract = require('../model/Contract');
  * List all corresponding insurance contracts from logged in user
  */
 router.get('/', (req, res) => {
-  res.send();
+  const user = req.user;
+  Contract.find({user: user._id}, function(err, users){
+    if (err) return res.send(err);
+    if (!users) return res.json([]);
+    res.json(users);
+  })
 });
 
 /**
@@ -18,12 +23,12 @@ router.post('/', (req, res) => {
   contract.user = req.user.id;
 
   contract.save((err, contract) => {
-    if(err){
-      logger.log("Error in post contract route. Error is %s", err.message);
-      // Proper error handling in later version
-      return res.status(400).send("Could not save contract, error message is "+err.message);
-    }
-    res.status(201).send(contract);
+      if(err){
+        logger.log("Error in post contract route. Error is %s", err.message);
+        // Proper error handling in later version
+        return res.status(400).send("Could not save contract, error message is "+err.message);
+      }
+      res.status(201).send(contract);
   });
 });
 
