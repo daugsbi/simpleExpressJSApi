@@ -26,6 +26,18 @@ UserSchema.pre('insert', function(next){
 });
 
 /**
+ * Check if entered password is valid
+ * @param enteredPassword string to compare with saved password
+ * @param cb function to callback
+ */
+UserSchema.methods.checkPassword = function(enteredPassword, cb){
+  bcrypt.compare(enteredPassword, this.password, function(err, isMatch) {
+    if (err) return cb(err);
+    cb(null, isMatch);
+  });
+};
+
+/**
  * Hash password in pre saving hook
  * source: https://www.mongodb.com/blog/post/password-authentication-with-mongoose-part-1
  */

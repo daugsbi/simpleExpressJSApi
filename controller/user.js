@@ -10,7 +10,18 @@ const User = require('../model/User');
  * Login a user
  */
 router.post('/login', (req, res) => {
-  res.send();
+  const {email, password} = req.body;
+  User.findOne({email: email}, (err, user) => {
+    if (err) res.send(err);
+    if (!user) return res.status(401).send();
+
+    logger.debug("User found, password need to be checked");
+    user.checkPassword(password, (err, isMatch) => {
+      if(err || !isMatch) return res.status(401).send(err);
+      logger.debug("User logged in");
+      res.send({token: 'testToken'});
+    });
+  })
 });
 
 /**
