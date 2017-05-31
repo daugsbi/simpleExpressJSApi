@@ -1,0 +1,15 @@
+{
+  "name": "testAPI",
+  "version": "0.0.1",
+  "description": "A backend for an imaginary insurance app written with express",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./app.js",
+  },
+  "author": "Denis Augsburger",
+  "license": "ISC",
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
